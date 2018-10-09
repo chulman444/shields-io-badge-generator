@@ -1,0 +1,4 @@
+.*.sw*
+logos/*
+!logos/.gitkeep
+node_modules

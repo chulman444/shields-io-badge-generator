@@ -1,4 +1,9 @@
 .*.sw*
+
 logos/*
 !logos/.gitkeep
+
 node_modules
+
+output/*
+!output/.gitkeep

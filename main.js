@@ -7,11 +7,15 @@ const { execSync } = require("child_process")
 function main() {
     let parser = getParser();
     let args = parser.parseArgs();
-    generateBadge(args.label, args.status, args.logo, args.colorA, args.color, args.output);
+    generateBadge(args.text, args.label, args.status, args.logo, args.colorA, args.color, args.output);
 }
 
 function getParser() {
     var parser = new ArgumentParser({});
+    parser.addArgument([ '-t', '--text' ], {
+        dest: 'text',
+        defaultValue: ''
+    });
     parser.addArgument([ '-l', '--left', '--label' ], {
         dest: 'label',
         defaultValue: ''
@@ -46,13 +50,17 @@ function generateLogo(logo_fp) {
     return encoded_dataurl;
 }
 
-function generateBadge(label, status, logo_fp, colorA, color, output) {
+function generateBadge(text, label, status, logo_fp, colorA, color, output) {
     let logo = '';
     if(logo_fp !== null) {
         logo = generateLogo(logo_fp);
     }
+    let filename = `${status}-${color}.svg`;
+    if(label == "") {
+        filename = text + "-" + filename;
+    }
     let shieldsio_url = "https://img.shields.io/badge/" +
-        `${status}-${color}.svg` +
+        filename +
         `?logo=${logo}` +
         `&label=${label}` +
         `&colorA=${colorA}`;
